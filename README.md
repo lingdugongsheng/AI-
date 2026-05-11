@@ -1,114 +1,69 @@
-🧠 RAG 智能问答系统
+三大AI应用系统整合简介
 
-基于 LangChain + LangGraph 的检索增强生成（RAG）问答系统，支持多轮对话、来源追溯和置信度评估。
+项目概览
 
-🌟 特性
+本方案整合了三个基于LangChain和LangGraph构建的高级AI应用，覆盖客服、问答、研究三大核心场景。
 
-智能问答：基于知识库的准确回答，减少模型幻觉
-多轮对话：自动维护对话历史，支持上下文理解
-来源追溯：显示答案引用的具体文档来源
-置信度评估：AI自动评估回答的可信度（0-1分）
-响应式界面：美观的聊天界面，支持移动端访问
-RESTful API：完整的API接口，支持Swagger文档
-Docker支持：一键部署，环境隔离
+多代理智能客服系统
 
-🚀 快速开始
+定位：企业级智能客服解决方案
 
-环境要求
-Python 3.10+
+核心架构：
+意图分类器：识别用户需求（技术支持/订单服务/产品咨询/升级人工）
+三大专业Agent：
+  技术支持Agent：故障排除、FAQ搜索
+  订单服务Agent：订单查询、物流跟踪
+  产品咨询Agent：产品推荐、价格查询
+质量检查器：100分制评估，<70分自动升级人工
 
+工作流程：用户消息 → 意图分类 → 路由决策 → Agent处理 → 质量检查 → 升级判断 → 最终响应
 
-安装依赖
-pip install -r requirements.txt
+适用场景：在线客服、技术支持、订单查询、产品咨询
 
-配置环境变量
-创建 .env 文件：
-ZHIPUAI_API_KEY=your_zhipu_api_key
-ZHIPUAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4/
-TAVILY_API_KEY=your_tavily_api_key  # 可选，用于网络搜索
+RAG智能问答系统
 
-启动服务
-开发模式（自动重载）
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+定位：基于知识库的智能问答引擎
 
-或直接运行
-python main.py
+核心功能：
+文档管理：批量索引、智能分块、向量化存储
+智能检索：向量相似度搜索，Top-K文档检索
+来源追溯：显示引用文档、内容预览、元数据
+置信度评估：0-1分评分，高/中/低三档标识
 
-访问应用
-前端界面: http://localhost:8000
-API文档: http://localhost:8000/docs
-健康检查: http://localhost:8000/health
+处理流程：用户提问 → 查询重写 → 文档检索 → 生成回答 → 置信度评估 → 返回结果
 
-🐳 Docker 部署
+适用场景：企业知识库、文档检索、教育辅助、内部问答
 
-构建镜像
-docker build -t rag-qa-system .
+智能研究助手
 
-运行容器
-docker run -p 8000:8000 \
-  -v $(pwd)/.env:/app/.env \
-  rag-qa-system
+定位：自动化研究平台
 
-使用 Docker Compose（推荐）
-docker-compose up --build
+六阶段流程：
+规划阶段：制定研究大纲、核心问题、方法论
+收集阶段：学术数据库+网络资源多源检索
+分析阶段：提取关键发现、比较观点、识别信息空白
+综合阶段：整合知识、标注引用、生成草稿
+生成阶段：完整报告（标题、摘要、目录、正文、结论、参考文献）
+检查阶段：10分制质量评估，<7.5分重新分析（最多2次迭代）
 
-📖 API 文档
+适用场景：学术研究、市场调研、技术趋势分析、报告撰写
 
-系统提供完整的 RESTful API：
-端点   方法   描述
-/health   GET   健康检查
+技术架构
 
-/query   POST   提交问题获取答案
+共同技术栈：
+LangChain + LangGraph：核心框架
+ChatOpenAI (GLM-4-Flash)：语言模型
+Pydantic：数据验证
+状态化工作流管理
 
-/index   POST   索引新文档
+系统特点：
+智能路由和条件判断
+质量评估和自动优化
+对话历史管理和上下文理解
+可扩展的工具集成系统
 
-/history   GET   获取对话历史
+应用价值
 
-/stats   GET   获取系统统计
-
-详细API文档请访问：http://localhost:8000/docs
-
-🏗️ 项目结构
-
-├── main.py              # FastAPI 主应用
-├── rag_system.py        # RAG 核心逻辑
-├── index.html           # 前端聊天界面
-├── requirements.txt     # 依赖包列表
-├── Dockerfile           # Docker 配置
-├── .env                 # 环境变量配置
-└── README.md            # 项目说明
-
-🔧 核心技术栈
-
-后端框架: FastAPI
-AI框架: LangChain + LangGraph
-LLM服务: 智谱AI (GLM-4-Flash)
-向量存储: InMemoryVectorStore
-前端: HTML5 + CSS3 + JavaScript
-部署: Docker
-
-📝 使用示例
-
-单轮问答
-用户: 什么是 LangChain？
-助手: LangChain 是一个用于开发大型语言模型（LLM）应用的开源框架...
-来源: [langchain_intro.txt]
-置信度: 95%
-
-多轮对话
-用户: LangGraph 是什么？
-助手: LangGraph 是 LangChain 生态系统中的一个重要组件...
-
-用户: 它的核心概念有哪些？
-助手: LangGraph 的核心概念包括：1. 状态（State）2. 节点（Node）...
-
-⚙️ 配置选项
-
-在 RAGConfig 中可以调整以下参数：
-
-temperature: 生成随机性 (默认: 0.2)
-max_tokens: 最大输出长度 (默认: 1000)
-chunk_size: 文档分块大小 (默认: 500)
-chunk_overlap: 分块重叠 (默认: 100)
-top_k: 检索文档数量 (默认: 3)
-
+智能客服：提升客服效率，降低人工成本，7×24小时服务
+RAG问答：快速获取准确信息，减少幻觉，来源可追溯
+研究助手：自动化研究流程，节省时间，提高研究质量
